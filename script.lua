@@ -1,22 +1,13 @@
 local UserInputService = game:GetService("UserInputService")
 
-local player = game:GetService("Players").LocalPlayer
-local character = player.Character
+local plr = game.Players.LocalPlayer
+local char = plr.Character
+local hrp = char:WaitForChild("HumanoidRootPart")
 
 local convert = game.Workspace.Platform:FindFirstChild("Convert")
 convert.Transparency = 1
 
-for _, v in ipairs(workspace.Hives:GetChildren()) do
-    if v:FindFirstChild("Claimed").Value == false and noHive == true then
-        local claimHandler = v.Platform.Top.Proxy.Handler
-        local proxy = claimHandler.Parent.Parent:WaitForChild("Proxy")
-
-        game:GetService("ReplicatedStorage").Remotes.ClaimHive:FireServer(proxy.Parent.Parent.Parent)
-        noHive = false
-    else
-        noHive = false
-    end
-end
+local getFields = game.Workspace.Fields
 
 local AutoDigV = false
 local MultiDigV = false
@@ -34,7 +25,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "amethyst.gg - BSS99",
-   Icon = "crown", -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   Icon = 135300817749879, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "amethyst.gg - loading",
    LoadingSubtitle = "guacamole nigga penis",
    Theme = "Amethyst", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -66,6 +57,61 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
+local HomeTab = Window:CreateTab("Home", "armchair")
+local Sectiona = HomeTab:CreateSection("Information")
+local texto = HomeTab:CreateLabel("UPD: Added Get All Items")
+local texto2 = HomeTab:CreateLabel("UPD: Added Redeem All Codes")
+local texto3 = HomeTab:CreateLabel("UPD: Added Open Shop")
+local Sectione = HomeTab:CreateSection("")
+local Buttone = HomeTab:CreateButton({
+   Name = "Redeem All Codes",
+   Callback = function()
+        local args = {
+    [1] = "100kvisits",
+    [2] = "100members",
+    [3] = "250dcmembers",
+    [4] = "300gmembers",
+    [5] = "300likes",
+    [6] = "99startercode",
+    [7] = "diamondsandsilver",
+    [8] = "honeycoins",
+    [9] = "santee's-special-testing-code",
+    [10] = "test",
+    [11] = "test2",
+    [12] = "tornadoegg",
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[1])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[2])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[3])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[4])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[5])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[6])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[7])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[8])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[9])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[10])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[11])
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RedeemCode"):FireServer(args[12])
+
+   end,
+})
+
+local Buttonere = HomeTab:CreateButton({
+   Name = "Give All Items",
+   Callback = function()
+local amount = 9999999 -- item amount
+for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Inventory.Items:GetChildren())
+ do
+    if v:IsA("Frame") then
+        game.ReplicatedStorage.Remotes.ModifyItemData:FireServer(v.Name,amount)
+    else
+        continue
+    end
+end
+end
+})
+
 local Tab = Window:CreateTab("Main", "code")
 local Section = Tab:CreateSection("Auto Farm")
 
@@ -74,25 +120,25 @@ local Toggle = Tab:CreateToggle({
    CurrentValue = false,
    Flag = "autodig", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-    if AutoDigV == false and player.Character:FindFirstChildOfClass("Tool") then
+    if AutoDigV == false and plr.Character:FindFirstChildOfClass("Tool") then
             AutoDigV = true
 
             while AutoDigV == true  do
                 if MultiDigV == true then
                     wait(multiDigSpeed)
                     for i = 30, 0, -1 do
-                        player.Character:FindFirstChildOfClass("Tool").ToolRemote:FireServer(unpack(args))
+                        plr.Character:FindFirstChildOfClass("Tool").ToolRemote:FireServer(unpack(args))
                     end
                 else
                     wait(digSpeed)
-                    player.Character:FindFirstChildOfClass("Tool").ToolRemote:FireServer(unpack(args))
+                    plr.Character:FindFirstChildOfClass("Tool").ToolRemote:FireServer(unpack(args))
         end
             
             
             end
-        elseif player.Backpack:FindFirstChildOfClass("Tool") then
-                    local theTool = player.Backpack:FindFirstChildOfClass("Tool") 
-                    theTool.Parent = character
+        elseif plr.Backpack:FindFirstChildOfClass("Tool") then
+                    local theTool = plr.Backpack:FindFirstChildOfClass("Tool") 
+                    theTool.Parent = char
                     wait(0.5)
         else
             AutoDigV = Value
@@ -117,9 +163,46 @@ local Toggle2 = Tab:CreateToggle({
         end
     end,
 })
-local Section2 = Tab:CreateSection("Misc")
 
-local Button = Tab:CreateButton({
+
+local Tab2 = Window:CreateTab("Misc", "circle-ellipsis")
+local Section = Tab2:CreateSection("Teleports")
+
+local Dropdown = Tab2:CreateDropdown({
+   Name = "Teleport to Field",
+   Options = {"Apple Field","Bamboo Field","Banana Field","Clover Field","Grape Field","Hacker Field","Orange Field","Pear Field","Pepper Field","Pineapple Field","Pumpkin Field","Raspberry Field","Seashell Field","Seaweed Field","Secret Field","Spider Field","Star Field","Ticket Field"},
+   CurrentOption = {"Apple Field"},
+   MultipleOptions = false,
+   Flag = "fieldtp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+		for i,v in pairs(game.Workspace.Fields:GetChildren()) do
+                if v.Name == Options[1] then
+                    plr.Character.PrimaryPart.CFrame = v.FieldBox.CFrame
+                end
+            end
+   end,
+})
+
+local Section = Tab2:CreateSection("Other")
+
+local shopthing = Tab2:CreateDropdown({
+   Name = "Open Shop",
+   Options = {"10 Shop","20 Shop","25 Shop","40 Shop","5 Shop","Aqua Shop","Basic Egg","Blue Shop","Cloud","Gum Shop","Gumdrops","Hack Shop","LadyBug Shop","LimitedShop","Needs Shop","Pixel Bee Egg","Pixel Shop","Pixel Ticket","Red Shop","S","Sprinkler Shop","Star Shop","Starter Shop","Ticket","Tornado Bee Egg","Tornado Shop","Toxic Shop",},
+   CurrentOption = {"10 Shop"},
+   MultipleOptions = false,
+   Flag = "openshop", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+        local args = {
+    [1] = Options[1],
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("OpenShop"):FireServer(unpack(args))
+
+   end,
+})
+
+local Buttoner = Tab2:CreateButton({
    Name = "Delete Area Barriers",
    Callback = function()
         	local folder = game.Workspace.AreaBarriers
@@ -129,8 +212,6 @@ end
    end,
 })
 
-local Tab2 = Window:CreateTab("Main", "circle-ellipsis")
-local Section = Tab2:CreateSection("Teleports")
-
 
 Rayfield:LoadConfiguration()
+
