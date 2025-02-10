@@ -1,3 +1,3 @@
 # 🔮 amethyst.gg
 
-A universal low-effort "Bee Swarm Simulator" fan games tool.
+A "Bee Swarm Simulator 99" tool.
