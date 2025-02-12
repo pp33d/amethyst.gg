@@ -1,3 +1,3 @@
 # 🔮 amethyst.gg
 
-A "Bee Swarm Simulator 99" tool.
+A "Bee Swarm Simulator 99" script.
